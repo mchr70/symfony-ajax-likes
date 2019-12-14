@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -113,5 +114,20 @@ class Post
         }
 
         return $this;
+    }
+
+    /**
+     * Permet de savoir si cet article est "liké" par un utilisateur
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(User $user) : bool
+    {
+        foreach($this->likes as $like){
+            if($like->getUser() === $user) return true;
+        }
+
+        return false;
     }
 }
